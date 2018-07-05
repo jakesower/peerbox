@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>Adhoc</title>
+    <link href="/assets/styles/menu.css" rel="stylesheet" type="text/css"></link>
+  </head>
+
+  <body>
+
+    <main id="catalog">
+      <ul>
+        <% widgets.forEach(function (widget) { %>
+          <li>
+            <span class="name"><%= widget.name %></span>
+            <span class="description"><%= widget.description %></span>
+          </li>
+        <% }) %>
+      </ul>
+    </main>
+
+    <main id="widget-container">
+
+    </main>
+
+    <script type="text/javascript">
+      <%- bootstrap %>
+    </script>
+  </body>
+</html>

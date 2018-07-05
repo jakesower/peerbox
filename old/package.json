@@ -1,0 +1,23 @@
+{
+  "name": "adhoc-server",
+  "version": "0.0.0",
+  "description": "A simple adhoc server.",
+  "main": "main.js",
+  "author": "Jake Sower",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./src/servers/index.js",
+    "build": "browserify ./src/clients/webrtc.js -o dist/clients/webrtc.js",
+    "watch": "watchify ./src/clients/index.js -o ./src/servers/client.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "ws": "^5.1.1"
+  },
+  "devDependencies": {
+    "browserify": "^16.2.0",
+    "watchify": "^3.11.0"
+  }
+}

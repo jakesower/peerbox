@@ -1,0 +1,1 @@
+console.error("\n/home/jake/dev/adhoc-server/src/clients/index.js:20\nimport client from './webrtc';\n^\nParseError: 'import' and 'export' may appear only with 'sourceType: module'");

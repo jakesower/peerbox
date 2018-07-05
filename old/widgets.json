@@ -1,0 +1,15 @@
+{
+  "name": "My Widget Collection",
+  "widgets": [
+    {
+      "name": "Test Chat",
+      "description": "A bare bones chat application used for testing.",
+      "location": "/widgets/test-chat.js"
+    },
+    {
+      "name": "Photo Share",
+      "description": "A bare bones widget to share photos.",
+      "location": "/widgets/photo-share.js"
+    }
+  ]
+}
