@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title>Adhoc</title>
+    <link href="styles/index.css" rel="stylesheet" type="text/css"></link>
+  </head>
+
+  <body>
+    <main id="catalog" style="display: none;">
+      <h1>Peerbox</h1>
+      <ul>
+        
+          <li class="widget" data-location="/widgets/chat/">
+            <h2>Test Chat</h2>
+            <div class="description">A bare bones chat application used for testing.</div>
+            <div><button data-location="/widgets/chat/" class="widget-launcher">Launch</button></div>
+          </li>
+        
+          <li class="widget" data-location="/widgets/photo-share.js">
+            <h2>Photo Share</h2>
+            <div class="description">A bare bones widget to share photos.</div>
+            <div><button data-location="/widgets/photo-share.js" class="widget-launcher">Launch</button></div>
+          </li>
+        
+      </ul>
+    </main>
+
+    <iframe id="widget" sandbox="allow-scripts allow-forms" style="display: none;"></iframe>
+  <script type="text/javascript" src="scripts/peerbox-connection.js"></script></body>
+</html>

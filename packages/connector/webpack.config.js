@@ -1,14 +1,21 @@
-const path = require("path");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const widgets = require('./config/widgets.json');
 
 module.exports = {
-  entry: ["./src/index.js"],
+  devtool: 'inline-source-map',
+  entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "../server/assets/scripts/"),
-    filename: "adhoc.js"
+    // path: __dirname + "../server/assets/scripts/",
+    path: __dirname + "/dist",
+    filename: "scripts/peerbox-connection.js"
   },
-  resolve: {
-    extensions: ['.js']
-  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      widgets,
+      template: 'index.ejs',
+      filename: 'index.html',
+    })
+  ],
   module: {
     rules: [
       {
@@ -17,10 +24,7 @@ module.exports = {
         use: {
           loader: "babel-loader"
         }
-      }
+      },
     ]
   },
-  // devServer: {
-  //   contentBase: "./dist"
-  // }
 };

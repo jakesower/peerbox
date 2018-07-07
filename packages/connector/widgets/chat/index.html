@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Chat</title>
+    <link rel="stylesheet" href="main.css">
+  </head>
+
+  <body>
+    <template id="chat-message">
+      <div class="message">
+        <span class="sender"></span>
+        <span class="time"></span>
+        <span class="body">Oh hai</span>
+      </div>
+    </template>
+
+    <div id="app">
+      <main>
+        <div class="messages">
+          <div class="message">
+            <span class="sender"></span>
+            <span class="body">Oh hai</span>
+          </div>
+        </div>
+
+        <form id="chat-form">
+          <div class="input-area">
+            <input id="chat-input" type="text" autocomplete="off">
+            <input id="chat-submit" type="submit" value="Send">
+          </div>
+        </form>
+      </main>
+      <aside></aside>
+    </div>
+
+
+  <script type="text/javascript" src="app.js"></script></body>
+</html>
