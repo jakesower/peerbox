@@ -1297,3 +1297,96 @@ and the repository exists.
 │ App name │ id │ mode │ pid │ status │ restart │ uptime │ cpu │ mem │ user │ watching │
 └──────────┴────┴──────┴─────┴────────┴─────────┴────────┴─────┴─────┴──────┴──────────┘
  DEBUG [1dca936d] 	 Use `pm2 show <id|name>` to get more details about an app
+  INFO ---------------------------------------------------------------------------
+  INFO START 2018-07-16 16:11:00 -0400 cap production pm2:start
+  INFO ---------------------------------------------------------------------------
+ DEBUG [2746998b] Running if test ! -d /srv/peerbox.jakesower.com/signaler/current; then echo "Directory does not exist '/srv/peerbox.jakesower.com/signaler/current'" 1>&2; false; fi as deploy@jakesower.com
+ DEBUG [2746998b] Command: if test ! -d /srv/peerbox.jakesower.com/signaler/current; then echo "Directory does not exist '/srv/peerbox.jakesower.com/signaler/current'" 1>&2; false; fi
+  INFO ---------------------------------------------------------------------------
+  INFO START 2018-07-16 16:11:05 -0400 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [d9a495bc] Running /usr/bin/env mkdir -p /tmp as deploy@jakesower.com
+ DEBUG [d9a495bc] Command: /usr/bin/env mkdir -p /tmp
+  INFO [76876722] Finished in 1.162 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-peerbox-signaler-production-jake.sh 0.0%
+  INFO Uploading /tmp/git-ssh-peerbox-signaler-production-jake.sh 100.0%
+  INFO [cb37dc81] Running /usr/bin/env chmod 700 /tmp/git-ssh-peerbox-signaler-production-jake.sh as deploy@jakesower.com
+ DEBUG [cb37dc81] Command: /usr/bin/env chmod 700 /tmp/git-ssh-peerbox-signaler-production-jake.sh
+  INFO [ef1231c7] Finished in 0.091 seconds with exit status 0 (successful).
+  INFO [74cb23c3] Running /usr/bin/env git ls-remote git@github.com:jakesower/peerbox.git HEAD as deploy@jakesower.com
+ DEBUG [74cb23c3] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-peerbox-signaler-production-jake.sh" ; /usr/bin/env git ls-remote git@github.com:jakesower/peerbox.git HEAD )
+ DEBUG [78b8f023] 	12dd3e69afa3c78becc1798e8a5c8efd063eba88	HEAD
+  INFO [78b8f023] Finished in 3.308 seconds with exit status 0 (successful).
+  INFO [43d1a6d0] Running /usr/bin/env mkdir -p /srv/peerbox.jakesower.com/signaler/shared /srv/peerbox.jakesower.com/signaler/releases as deploy@jakesower.com
+ DEBUG [43d1a6d0] Command: /usr/bin/env mkdir -p /srv/peerbox.jakesower.com/signaler/shared /srv/peerbox.jakesower.com/signaler/releases
+  INFO [54ed0b16] Finished in 0.046 seconds with exit status 0 (successful).
+ DEBUG [53cd6c79] Running [ -f /srv/peerbox.jakesower.com/signaler/current/REVISION ] as deploy@jakesower.com
+ DEBUG [53cd6c79] Command: [ -f /srv/peerbox.jakesower.com/signaler/current/REVISION ]
+ DEBUG [7636a01c] Finished in 0.092 seconds with exit status 0 (successful).
+ DEBUG [7c39a79c] Running /usr/bin/env cat /srv/peerbox.jakesower.com/signaler/current/REVISION 2>/dev/null as deploy@jakesower.com
+ DEBUG [7c39a79c] Command: /usr/bin/env cat /srv/peerbox.jakesower.com/signaler/current/REVISION 2>/dev/null
+ DEBUG [d8e68a75] 	c37bd292530c93cc5956a50d60e429561cd2fbe1
+ DEBUG [d8e68a75] Finished in 0.125 seconds with exit status 0 (successful).
+ DEBUG [16bd73ba] Running [ -f /srv/peerbox.jakesower.com/signaler/repo/HEAD ] as deploy@jakesower.com
+ DEBUG [16bd73ba] Command: [ -f /srv/peerbox.jakesower.com/signaler/repo/HEAD ]
+ DEBUG [d6b17a6d] Finished in 0.090 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /srv/peerbox.jakesower.com/signaler/repo
+ DEBUG [a8dc55ed] Running if test ! -d /srv/peerbox.jakesower.com/signaler/repo; then echo "Directory does not exist '/srv/peerbox.jakesower.com/signaler/repo'" 1>&2; false; fi as deploy@jakesower.com
+ DEBUG [a8dc55ed] Command: if test ! -d /srv/peerbox.jakesower.com/signaler/repo; then echo "Directory does not exist '/srv/peerbox.jakesower.com/signaler/repo'" 1>&2; false; fi
+ DEBUG [c505d95e] Finished in 0.091 seconds with exit status 0 (successful).
+  INFO [c7ed567d] Running /usr/bin/env git remote set-url origin git@github.com:jakesower/peerbox.git as deploy@jakesower.com
+ DEBUG [c7ed567d] Command: cd /srv/peerbox.jakesower.com/signaler/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-peerbox-signaler-production-jake.sh" ; /usr/bin/env git remote set-url origin git@github.com:jakesower/peerbox.git )
+  INFO [95084072] Finished in 0.100 seconds with exit status 0 (successful).
+  INFO [d83472b4] Running /usr/bin/env git remote update --prune as deploy@jakesower.com
+ DEBUG [d83472b4] Command: cd /srv/peerbox.jakesower.com/signaler/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-peerbox-signaler-production-jake.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [755143d3] 	Fetching origin
+ DEBUG [755143d3] 	From github.com:jakesower/peerbox
+   c37bd29..12dd3e6  master     -> master
+  INFO [755143d3] Finished in 1.378 seconds with exit status 0 (successful).
+ DEBUG [cad05506] Running if test ! -d /srv/peerbox.jakesower.com/signaler/repo; then echo "Directory does not exist '/srv/peerbox.jakesower.com/signaler/repo'" 1>&2; false; fi as deploy@jakesower.com
+ DEBUG [cad05506] Command: if test ! -d /srv/peerbox.jakesower.com/signaler/repo; then echo "Directory does not exist '/srv/peerbox.jakesower.com/signaler/repo'" 1>&2; false; fi
+ DEBUG [392fcd5e] Finished in 0.049 seconds with exit status 0 (successful).
+  INFO [aff7a2fe] Running /usr/bin/env mkdir -p /srv/peerbox.jakesower.com/signaler/releases/20180716201110 as deploy@jakesower.com
+ DEBUG [aff7a2fe] Command: cd /srv/peerbox.jakesower.com/signaler/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-peerbox-signaler-production-jake.sh" ; /usr/bin/env mkdir -p /srv/peerbox.jakesower.com/signaler/releases/20180716201110 )
+  INFO [2904c167] Finished in 0.093 seconds with exit status 0 (successful).
+  INFO [7c83a4e4] Running /usr/bin/env git archive master packages/signaler | /usr/bin/env tar -x --strip-components 2 -f - -C /srv/peerbox.jakesower.com/signaler/releases/20180716201110 as deploy@jakesower.com
+ DEBUG [7c83a4e4] Command: cd /srv/peerbox.jakesower.com/signaler/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-peerbox-signaler-production-jake.sh" ; /usr/bin/env git archive master packages/signaler | /usr/bin/env tar -x --strip-components 2 -f - -C /srv/peerbox.jakesower.com/signaler/releases/20180716201110 )
+  INFO [01f041c0] Finished in 0.107 seconds with exit status 0 (successful).
+ DEBUG [0370b4f1] Running if test ! -d /srv/peerbox.jakesower.com/signaler/repo; then echo "Directory does not exist '/srv/peerbox.jakesower.com/signaler/repo'" 1>&2; false; fi as deploy@jakesower.com
+ DEBUG [0370b4f1] Command: if test ! -d /srv/peerbox.jakesower.com/signaler/repo; then echo "Directory does not exist '/srv/peerbox.jakesower.com/signaler/repo'" 1>&2; false; fi
+ DEBUG [ef7379f1] Finished in 0.091 seconds with exit status 0 (successful).
+ DEBUG [a521bac1] Running /usr/bin/env git rev-list --max-count=1 master as deploy@jakesower.com
+ DEBUG [a521bac1] Command: cd /srv/peerbox.jakesower.com/signaler/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-peerbox-signaler-production-jake.sh" ; /usr/bin/env git rev-list --max-count=1 master )
+ DEBUG [86dc37d1] 	12dd3e69afa3c78becc1798e8a5c8efd063eba88
+ DEBUG [86dc37d1] Finished in 0.100 seconds with exit status 0 (successful).
+ DEBUG [1189ec97] Running if test ! -d /srv/peerbox.jakesower.com/signaler/releases/20180716201110; then echo "Directory does not exist '/srv/peerbox.jakesower.com/signaler/releases/20180716201110'" 1>&2; false; fi as deploy@jakesower.com
+ DEBUG [1189ec97] Command: if test ! -d /srv/peerbox.jakesower.com/signaler/releases/20180716201110; then echo "Directory does not exist '/srv/peerbox.jakesower.com/signaler/releases/20180716201110'" 1>&2; false; fi
+ DEBUG [775c5531] Finished in 0.093 seconds with exit status 0 (successful).
+  INFO [163d72e1] Running /usr/bin/env echo "12dd3e69afa3c78becc1798e8a5c8efd063eba88" > REVISION as deploy@jakesower.com
+ DEBUG [163d72e1] Command: cd /srv/peerbox.jakesower.com/signaler/releases/20180716201110 && /usr/bin/env echo "12dd3e69afa3c78becc1798e8a5c8efd063eba88" > REVISION
+  INFO [c9ad1cec] Finished in 0.094 seconds with exit status 0 (successful).
+  INFO [9f885655] Running /usr/bin/env ln -s /srv/peerbox.jakesower.com/signaler/releases/20180716201110 /srv/peerbox.jakesower.com/signaler/releases/current as deploy@jakesower.com
+ DEBUG [9f885655] Command: /usr/bin/env ln -s /srv/peerbox.jakesower.com/signaler/releases/20180716201110 /srv/peerbox.jakesower.com/signaler/releases/current
+  INFO [dadfe0b1] Finished in 0.091 seconds with exit status 0 (successful).
+  INFO [822e5bc4] Running /usr/bin/env mv /srv/peerbox.jakesower.com/signaler/releases/current /srv/peerbox.jakesower.com/signaler as deploy@jakesower.com
+ DEBUG [822e5bc4] Command: /usr/bin/env mv /srv/peerbox.jakesower.com/signaler/releases/current /srv/peerbox.jakesower.com/signaler
+  INFO [85e937d7] Finished in 0.096 seconds with exit status 0 (successful).
+ DEBUG [bf7131a7] Running if test ! -d /srv/peerbox.jakesower.com/signaler/releases/20180716201110; then echo "Directory does not exist '/srv/peerbox.jakesower.com/signaler/releases/20180716201110'" 1>&2; false; fi as deploy@jakesower.com
+ DEBUG [bf7131a7] Command: if test ! -d /srv/peerbox.jakesower.com/signaler/releases/20180716201110; then echo "Directory does not exist '/srv/peerbox.jakesower.com/signaler/releases/20180716201110'" 1>&2; false; fi
+ DEBUG [67fa18df] Finished in 0.091 seconds with exit status 0 (successful).
+ DEBUG [4e35f8ab] Running /usr/bin/env pm2 jlist -s as deploy@jakesower.com
+ DEBUG [4e35f8ab] Command: cd /srv/peerbox.jakesower.com/signaler/releases/20180716201110 && /usr/bin/env pm2 jlist -s
+ DEBUG [9be2448a] 	[]
+ DEBUG [9be2448a] Finished in 0.912 seconds with exit status 0 (successful).
+  INFO App is not registerd
+ DEBUG [7d772370] Running if test ! -d /srv/peerbox.jakesower.com/signaler/releases/20180716201110; then echo "Directory does not exist '/srv/peerbox.jakesower.com/signaler/releases/20180716201110'" 1>&2; false; fi as deploy@jakesower.com
+ DEBUG [7d772370] Command: if test ! -d /srv/peerbox.jakesower.com/signaler/releases/20180716201110; then echo "Directory does not exist '/srv/peerbox.jakesower.com/signaler/releases/20180716201110'" 1>&2; false; fi
+ DEBUG [32014c93] Finished in 0.091 seconds with exit status 0 (successful).
+  INFO [45109599] Running /usr/bin/env pm2 start main.js --name peerbox-signaler  as deploy@jakesower.com
+ DEBUG [45109599] Command: cd /srv/peerbox.jakesower.com/signaler/releases/20180716201110 && /usr/bin/env pm2 start main.js --name peerbox-signaler 
+ DEBUG [88e513c8] 	[PM2][ERROR] script not found : /srv/peerbox.jakesower.com/signaler/releases/20180716201110/main.js
+ DEBUG [88e513c8] 	script not found : /srv/peerbox.jakesower.com/signaler/releases/20180716201110/main.js
+ DEBUG [88e513c8] 	┌──────────┬────┬──────┬─────┬────────┬─────────┬────────┬─────┬─────┬──────┬──────────┐
+│ App name │ id │ mode │ pid │ status │ restart │ uptime │ cpu │ mem │ user │ watching │
+└──────────┴────┴──────┴─────┴────────┴─────────┴────────┴─────┴─────┴──────┴──────────┘
+ DEBUG [88e513c8] 	 Use `pm2 show <id|name>` to get more details about an app
