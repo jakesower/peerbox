@@ -1,0 +1,65 @@
+body {
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+* {
+  font-family: "White Rabbit";
+}
+
+#widget {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+main#catalog {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  padding: 1em;
+  background-color: black;
+  color: #00EE00;
+}
+
+main#catalog ul {
+  display: flex;
+}
+
+main#catalog li {
+  flex: 1 0 auto;
+  margin: 1em;
+  padding: 1em;
+
+  box-shadow: 0 0 10px 3px #0f0;  /* inner white */
+}
+
+main#catalog button {
+  background-color: black;
+  color: #00EE00;
+  border: none;
+  padding: 1em;
+  margin-top: 15px;
+  box-shadow: 0 0 5px 3px #0f0;  /* inner white */
+}
+
+main#catalog button:hover {
+  background-color: black;
+  color: #00EEEE;
+  border: none;
+  padding: 1em;
+  margin-top: 15px;
+  box-shadow: 0 0 5px 3px #0ee;  /* inner white */
+}
+
+
+h1 {
+  font-size: 180%;
+  margin-bottom: 1em;
+}
+
+h2 {
+  font-size: 130%;
+  margin-bottom: 0.5em;
+}
