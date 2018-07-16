@@ -14,8 +14,8 @@ set :deploy_to, "/srv/peerbox.jakesower.com/signaler"
 namespace :deploy do
   desc 'Restart application'
   task :restart do
-    invoke 'npm:install'
-    invoke 'pm2:restart'
+    # invoke 'npm:install'
+    # invoke 'pm2:restart'
   end
 
   after :publishing, :restart
