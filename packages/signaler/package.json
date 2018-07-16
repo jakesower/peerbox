@@ -6,7 +6,7 @@
   "author": "Jake Sower",
   "license": "MIT",
   "scripts": {
-    "build": "webpack --mode=development",
+    "build": "babel src -d dist",
     "start": "babel-watch ./src/index.js"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "ws": "^5.1.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.7.0",
     "babel-watch": "^2.0.7",

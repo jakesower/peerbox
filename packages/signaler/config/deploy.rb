@@ -11,6 +11,8 @@ set :repo_tree, "packages/signaler/"
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/srv/peerbox.jakesower.com/signaler"
 
+set :pm2_app_command, "dist/index.js"
+
 namespace :deploy do
   desc 'Restart application'
   task :restart do
