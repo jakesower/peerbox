@@ -1,8 +1,8 @@
 {
   "name": "peerbox-server",
   "version": "1.0.0",
-  "description": "A simple adhoc server.",
-  "main": "main.js",
+  "description": "A simple peerbox signal server.",
+  "main": "src/index.js",
   "author": "Jake Sower",
   "license": "MIT",
   "scripts": {

@@ -1,15 +1,25 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.11.0"
 
-set :application, "peerbox-signal-server"
+set :application, "peerbox-signaler"
 set :repo_url, "git@github.com:jakesower/peerbox.git"
-set :repo_tree, "packages/cradle/"
+set :repo_tree, "packages/signaler/"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/srv/peerbox.jakesower.com/signal-server"
+set :deploy_to, "/srv/peerbox.jakesower.com/signaler"
+
+namespace :deploy do
+  desc 'Restart application'
+  task :restart do
+    invoke 'npm:install'
+    invoke 'pm2:restart'
+  end
+
+  after :publishing, :restart
+end
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
