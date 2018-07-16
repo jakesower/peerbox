@@ -1,4 +1,0 @@
-{
-  "port": 3001,
-  "signalerPath": "ws://localhost:3002/"
-}

@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>Adhoc</title>
+    <link href="/styles/index.css" rel="stylesheet" type="text/css"></link>
+  </head>
+
+  <body>
+    <main id="catalog" style="display: none;">
+      <h1>Peerbox</h1>
+      <ul>
+        <% widgets.forEach(function (widget) { %>
+          <li class="widget" data-location="<%= widget.location %>">
+            <h2><%= widget.name %></h2>
+            <div class="description"><%= widget.description %></div>
+            <div><button data-location="<%= widget.location %>" class="widget-launcher">Launch</button></div>
+          </li>
+        <% }) %>
+      </ul>
+    </main>
+
+    <iframe id="widget" sandbox="allow-scripts allow-forms" style="display: none;"></iframe>
+    <script type="text/javascript" src="/scripts/peerbox-connection.js"></script></body>
+  </body>
+</html>
