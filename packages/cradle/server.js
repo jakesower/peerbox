@@ -1,10 +1,15 @@
-import { createServer } from 'http';
-import express from 'express';
-import config from './config.json';
-import widgets from './config/widgets.json';
+// import { createServer } from 'http';
+// import express from 'express';
+// import config from './config.json';
+// import widgets from './config/widgets.json';
+
+const http = require('http');
+const express = require('express');
+const config = require('./config.json');
+const widgets = require('./config/widgets.json');
 
 const port = config.port;
-const server = createServer();
+const server = http.createServer();
 
 const app = express();
 app.use(express.static('dist'));
@@ -19,7 +24,6 @@ app.get('/', (_req, res) => {
 });
 
 app.get('/c/*', (_req, res) => {
-  console.log('hai')
   res.render('index.ejs', { widgets });
 });
 

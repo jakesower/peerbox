@@ -82,7 +82,7 @@ exports.default = function (server, channels) {
     });
   }
 
-  wss.on('connection', function connection(ws, req) {
+  wss.on('connection', function (ws, req) {
     var urlParts = _url2.default.parse(req.url).path.split('/');
     var channelId = urlParts[urlParts.length - 1];
 
