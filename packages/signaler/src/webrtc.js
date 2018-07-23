@@ -16,7 +16,7 @@
 
 import url from 'url';
 import { Server as WebSocketServer } from 'ws';
-import { randomBytes } from 'crypto';
+import { randomFillSync } from 'crypto';
 
 export default function (server, channels) {
   var wss = new WebSocketServer({ server: server });
@@ -79,45 +79,43 @@ export default function (server, channels) {
   }
 
   function createConnection (sock) {
-    return new Promise(resolve => {
-      randomBytes(16, (_, buf) => {
-        resolve({
-          id: buf.toString('hex'),
-          send: function (msg) {
-            sock.send(JSON.stringify(msg));
-          }
-        });
-      });
-    });
+    const buf = Buffer.alloc(16);
+    const id = randomFillSync(buf).toString('hex');
+
+    return {
+      id,
+      send: function (msg) {
+        sock.send(JSON.stringify(msg));
+      }
+    };
   }
 
-  wss.on('connection', function connection(ws, req) {
+  wss.on('connection', function (ws, req) {
     var urlParts = url.parse(req.url).path.split('/');
     var channelId = urlParts[urlParts.length - 1];
+    var connection = createConnection(ws);
 
-    createConnection(ws).then(connection => {
-      // will broadcast appropriate messages to channel
-      addConnectionToChannel(connection, channelId);
+    // will broadcast appropriate messages to channel
+    addConnectionToChannel(connection, channelId);
 
-      ws.on('message', function incoming(rawMessage) {
-        var channel = channels[channelId];
+    ws.on('message', function incoming(rawMessage) {
+      var channel = channels[channelId];
 
-        try {
-          var message = JSON.parse(rawMessage);
-          broadcastTo({ channel, body: message.body, to: message.to, from: connection.id });
+      try {
+        var message = JSON.parse(rawMessage);
+        broadcastTo({ channel, body: message.body, to: message.to, from: connection.id });
 
-          console.log(message);
-        }
-        catch (err) {
-          console.warn("The message couldn't go through!");
-          console.log(rawMessage);
-          console.log(err);
-        }
-      });
+        console.log(message);
+      }
+      catch (err) {
+        console.warn("The message couldn't go through!");
+        console.log(rawMessage);
+        console.log(err);
+      }
+    });
 
-      ws.on('close', function closing() {
-        removeConnectionFromChannel(connection, channelId);
-      });
+    ws.on('close', function closing() {
+      removeConnectionFromChannel(connection, channelId);
     });
   });
 

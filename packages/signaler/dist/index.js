@@ -28,7 +28,6 @@ var app = (0, _express2.default)();
 app.use(function (_, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("X-Frame-Options", "ALLOW-FROM http://localhost:3001/");
   next();
 });
 
@@ -43,7 +42,7 @@ app.get('/request-channel', function (req, res) {
   if (!widget) {
     return res.send(400, 'widget must be specified');
   }
-  (0, _crypto.randomBytes)(16, function (_, buf) {
+  (0, _crypto.randomBytes)(3, function (_, buf) {
     var channelId = buf.toString('hex');
     channels[channelId] = {
       widget: widget,

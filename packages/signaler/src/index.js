@@ -14,7 +14,6 @@ const app = express();
 app.use(function (_, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("X-Frame-Options", "ALLOW-FROM http://localhost:3001/");
   next();
 });
 
@@ -27,7 +26,7 @@ app.get('/request-channel', (req, res) => {
 
   // TODO: likely security risk here
   if (!widget) { return res.send(400, 'widget must be specified'); }
-  randomBytes(16, (_, buf) => {
+  randomBytes(3, (_, buf) => {
     const channelId = buf.toString('hex');
     channels[channelId] = {
       widget,

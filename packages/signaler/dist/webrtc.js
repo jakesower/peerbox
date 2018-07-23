@@ -70,44 +70,42 @@ exports.default = function (server, channels) {
   }
 
   function createConnection(sock) {
-    return new Promise(function (resolve) {
-      (0, _crypto.randomBytes)(16, function (_, buf) {
-        resolve({
-          id: buf.toString('hex'),
-          send: function send(msg) {
-            sock.send(JSON.stringify(msg));
-          }
-        });
-      });
-    });
+    var buf = Buffer.alloc(16);
+    var id = (0, _crypto.randomFillSync)(buf).toString('hex');
+
+    return {
+      id: id,
+      send: function send(msg) {
+        sock.send(JSON.stringify(msg));
+      }
+    };
   }
 
   wss.on('connection', function (ws, req) {
     var urlParts = _url2.default.parse(req.url).path.split('/');
     var channelId = urlParts[urlParts.length - 1];
+    var connection = createConnection(ws);
 
-    createConnection(ws).then(function (connection) {
-      // will broadcast appropriate messages to channel
-      addConnectionToChannel(connection, channelId);
+    // will broadcast appropriate messages to channel
+    addConnectionToChannel(connection, channelId);
 
-      ws.on('message', function incoming(rawMessage) {
-        var channel = channels[channelId];
+    ws.on('message', function incoming(rawMessage) {
+      var channel = channels[channelId];
 
-        try {
-          var message = JSON.parse(rawMessage);
-          broadcastTo({ channel: channel, body: message.body, to: message.to, from: connection.id });
+      try {
+        var message = JSON.parse(rawMessage);
+        broadcastTo({ channel: channel, body: message.body, to: message.to, from: connection.id });
 
-          console.log(message);
-        } catch (err) {
-          console.warn("The message couldn't go through!");
-          console.log(rawMessage);
-          console.log(err);
-        }
-      });
+        console.log(message);
+      } catch (err) {
+        console.warn("The message couldn't go through!");
+        console.log(rawMessage);
+        console.log(err);
+      }
+    });
 
-      ws.on('close', function closing() {
-        removeConnectionFromChannel(connection, channelId);
-      });
+    ws.on('close', function closing() {
+      removeConnectionFromChannel(connection, channelId);
     });
   });
 
