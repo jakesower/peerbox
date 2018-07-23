@@ -1,5 +1,5 @@
 import PeerConnection from './peer-connection';
-import config from '../../config.json';
+import config from '../../config/env.json';
 import emitter from '../lib/emitter';
 
 /**
@@ -56,6 +56,11 @@ export default function (channelId) {
             sendToAll: message => Object.values(peerConnections).forEach(c => c.sendMessage(message)),
             sendToPeer: (peerId, message) => peerConnections[peerId].sendMessage(message),
             widget: body.widget,
+            close: () => {
+              Object.values(peerConnections).forEach(c => c.close());
+              peerConnections = {};
+              signaler.close();
+            },
           });
 
           // will this work?

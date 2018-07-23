@@ -24,6 +24,7 @@ export default function (sendSignal, signalsEmitter) {
     sendMessage: widgetChannel.send,
     messageEmitter: widgetChannel.messageEmitter,
     initiate: createOffer,
+    close: () => { peerConnection.close(); peerConnection = null; }
   };
 
 

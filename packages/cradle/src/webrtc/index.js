@@ -1,5 +1,5 @@
 import ConnectionPool from './connection-pool';
-import config from '../../config.json';
+import config from '../../config/env.json';
 
 export default (function() {
   // request a new room from the server and connect to it

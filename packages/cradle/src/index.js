@@ -17,7 +17,6 @@
  * This file is meant to be inlined with `index.html`.
  */
 
-import config from '../config.json';
 import client from './webrtc';
 
 (function() {
@@ -61,7 +60,6 @@ import client from './webrtc';
     connected: {
       enter: ({ connectionPool }) => {
         state.connectionPool = connectionPool;
-        history.pushState({ channel: connectionPool.channelId }, '', '/c/'+connectionPool.channelId);
         widgetElt.style.display = 'block';
 
         // with everything ready, cradle starts coordinating message passing
@@ -75,7 +73,8 @@ import client from './webrtc';
         });
       },
       exit: () => {
-        mode.signaler.close().then(() => mode.signaler = null);
+        state.connectionPool.close();
+        state.connectionPool = null;
         widgetElt.style.display = 'none';
         widgetElt.source = '';
       }
@@ -106,6 +105,7 @@ import client from './webrtc';
         const connectionPoolP = client.createSignaler(widgetUri);
 
         Promise.all([widgetContentP, connectionPoolP]).then(([_, connectionPool]) => {
+          history.pushState({ channel: connectionPool.channelId }, '', '/c/'+connectionPool.channelId);
           state.widget = widgetUri;
           transitionToMode('connected', { connectionPool, widgetUri });
         });
@@ -132,6 +132,7 @@ import client from './webrtc';
     return transitionToMode('catalog');
   }
 
+  window.onpopstate = setModeFromUri;
   init();
 
 }());
