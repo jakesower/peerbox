@@ -15,7 +15,9 @@ export default function (channelId) {
   return new Promise((resolve, _reject) => {
     let peerConnections = {};
     let signalEmitters = {};
+    let peerStatuses = {};
     let { update: updatePeerConnections, ...peerConnectionsEmitter } = emitter();
+    let { update: updatePeerStatuses, ...peerStatusesEmitter } = emitter();
     let { update: updateMessages, ...messagesEmitter } = emitter();
     const signaler = new WebSocket(config.signalerWsUri + '/' + channelId);
 
@@ -37,7 +39,15 @@ export default function (channelId) {
             signalEmitters[peerId], // signalEmitter (pool -> connection)
           );
           peerConnections[peerId] = c;
+          console.log(c)
+          peerStatuses[peerId] = 'disconnected';
           c.messageEmitter.on(body => updateMessages({ body, from: peerId })); // TODO: (small) memory leak
+          c.statusEmitter.on(status => {
+            peerStatuses[peerId] = status;
+            updatePeerStatuses(peerStatuses);
+          });
+
+          updatePeerStatuses(peerStatuses);
           return c;
         };
 
@@ -53,6 +63,7 @@ export default function (channelId) {
             channelId,
             messagesEmitter,
             peerConnectionsEmitter,
+            peerStatusesEmitter,
             sendToAll: message => Object.values(peerConnections).forEach(c => c.sendMessage(message)),
             sendToPeer: (peerId, message) => peerConnections[peerId].sendMessage(message),
             widget: body.widget,
@@ -73,7 +84,9 @@ export default function (channelId) {
         else if (body.type === 'peerDisconnected') {
           delete signalEmitters[body.id];
           delete peerConnections[body.id];
+          delete peerStatuses[body.id];
           updatePeerConnections(peerConnections);
+          updatePeerStatuses(peerStatuses);
         }
       }
       else { // data not from the signal server itself (likely a peer RTC message)

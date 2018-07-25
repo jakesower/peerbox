@@ -9,6 +9,8 @@ import { createDispatcher } from '../lib/utils';
 
 export default function (sendSignal, signalsEmitter) {
   let peerConnection = new RTCPeerConnection({ iceServers: [{ url: "stun://stun.ucsb.edu:3478" }] });
+  let { update: updateStatus, ...statusEmitter } = emitter();
+  updateStatus('disconnected');
 
   peerConnection.onicecandidate = function (event) { if (event.candidate) { signal('iceCandidate', { iceCandidate: event.candidate }); }}
 
@@ -21,6 +23,7 @@ export default function (sendSignal, signalsEmitter) {
   }));
 
   return {
+    statusEmitter,
     sendMessage: widgetChannel.send,
     messageEmitter: widgetChannel.messageEmitter,
     initiate: createOffer,
@@ -34,6 +37,7 @@ export default function (sendSignal, signalsEmitter) {
 
   // RTC stuff
   function handleOffer({ offer }) {
+    updateStatus('handling offer');
     peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
     peerConnection.createAnswer(function (answer) {
       peerConnection.setLocalDescription(answer);
@@ -43,6 +47,7 @@ export default function (sendSignal, signalsEmitter) {
 
 
   function handleAnswer({ answer }) {
+    updateStatus('handling answer');
     peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
   }
 
@@ -53,6 +58,7 @@ export default function (sendSignal, signalsEmitter) {
 
 
   function createOffer() {
+    updateStatus('connecting');
     peerConnection.createOffer(function (offer) {
       signal('offer', { offer: offer });
       peerConnection.setLocalDescription(offer);
@@ -71,25 +77,29 @@ export default function (sendSignal, signalsEmitter) {
     }
 
     peerConnection.ondatachannel = chan => {
+      updateStatus('data channel connected');
       console.log({ chan })
       chan.channel.onmessage = m => {
-        console.log('got message on chan');
-        console.log(m);
+        // console.log('got message on chan');
+        // console.log(m);
         update(JSON.parse(m.data));
       }
     }
 
     channel.onmessage = m => {
-      console.log('got message');
-      console.log(m);
+      // console.log('got message');
+      // console.log(m);
       update(JSON.parse(m));
     }
+
     channel.onopen = () => {
-      console.log(channel);
+      updateStatus('channel open');
+      // console.log(channel);
       queue.forEach(m => channel.send(m));
       queue = [];
       connected = true;
     };
+
     channel.onerror = console.error;
 
     return { messageEmitter, send };

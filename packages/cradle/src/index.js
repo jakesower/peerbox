@@ -25,8 +25,6 @@ import client from './webrtc';
 
   const widgetApi = {
     send: m => {
-      console.log('ding');
-      console.log(m);
       widgetElt.contentWindow.postMessage(m, '*')
     }
   };
@@ -68,6 +66,8 @@ import client from './webrtc';
           widgetApi.send(m.body);
         });
 
+        connectionPool.peerStatusesEmitter.on(console.log)
+
         window.addEventListener('message', m => {
           connectionPool.sendToAll(m.data);
         });
@@ -85,7 +85,6 @@ import client from './webrtc';
         client.joinChannel(channelId)
           .then(connectionPool => {
             const widgetContentP = new Promise(resolve => {
-              console.log('oh hey')
               widgetElt.addEventListener('load', resolve, { passive: true }); // TODO: unregiter this on load
               widgetElt.src = connectionPool.widget;
             });
