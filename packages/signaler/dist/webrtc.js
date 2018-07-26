@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (server, channels) {
+exports.default = function (server, channels, connections) {
   var wss = new _ws.Server({ server: server });
 
   function addConnectionToChannel(connection, channelId) {
@@ -85,6 +85,7 @@ exports.default = function (server, channels) {
     var urlParts = _url2.default.parse(req.url).path.split('/');
     var channelId = urlParts[urlParts.length - 1];
     var connection = createConnection(ws);
+    connections[connection.id] = connection;
 
     // will broadcast appropriate messages to channel
     addConnectionToChannel(connection, channelId);
@@ -106,6 +107,7 @@ exports.default = function (server, channels) {
 
     ws.on('close', function closing() {
       removeConnectionFromChannel(connection, channelId);
+      delete connections[connection.id];
     });
   });
 
@@ -115,8 +117,11 @@ exports.default = function (server, channels) {
         from = _ref.from,
         exceptId = _ref.exceptId;
 
-    channel.connections.forEach(function (sock) {
-      if (sock.id !== exceptId) sock.send({ body: body, from: from });
+    // channel.connections.forEach(function (sock) {
+    //   if (sock.id !== exceptId) sock.send({ body, from });
+    // });
+    channel.connections.forEach(function (conn) {
+      conn.id === exceptId ? null : sendMessage({ body: body, from: from, to: conn.id });
     });
   }
 
@@ -133,7 +138,16 @@ exports.default = function (server, channels) {
       throw "No such channel with ID " + targetId;
     }
 
-    target.send({ body: body, from: from });
+    sendMessage({ body: body, from: from, to: to });
+  }
+
+  function sendMessage(_ref3) {
+    var body = _ref3.body,
+        from = _ref3.from,
+        to = _ref3.to;
+
+    console.log({ body: body, from: from, to: to });
+    connections[to].send({ body: body, from: from });
   }
 
   return wss;

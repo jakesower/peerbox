@@ -23,6 +23,7 @@ var server = (0, _http.createServer)();
 
 // this holds all of the connections, it gets shared over a couple of files :C
 var channels = {};
+var connections = {};
 
 var app = (0, _express2.default)();
 app.use(function (_, res, next) {
@@ -31,7 +32,7 @@ app.use(function (_, res, next) {
   next();
 });
 
-(0, _webrtc2.default)(server, channels);
+(0, _webrtc2.default)(server, channels, connections);
 
 server.on('request', app);
 

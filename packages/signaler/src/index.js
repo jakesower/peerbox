@@ -9,6 +9,7 @@ const server = createServer();
 
 // this holds all of the connections, it gets shared over a couple of files :C
 let channels = {};
+let connections = {};
 
 const app = express();
 app.use(function (_, res, next) {
@@ -17,7 +18,7 @@ app.use(function (_, res, next) {
   next();
 });
 
-signalServer(server, channels);
+signalServer(server, channels, connections);
 
 server.on('request', app);
 

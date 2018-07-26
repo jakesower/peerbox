@@ -18,8 +18,8 @@ import url from 'url';
 import { Server as WebSocketServer } from 'ws';
 import { randomFillSync } from 'crypto';
 
-export default function (server, channels) {
-  var wss = new WebSocketServer({ server: server });
+export default function (server, channels, connections) {
+  const wss = new WebSocketServer({ server: server });
 
   function addConnectionToChannel(connection, channelId) {
     // FIXME: channels should always be requested
@@ -30,7 +30,7 @@ export default function (server, channels) {
       };
     }
 
-    var channel = channels[channelId];
+    const channel = channels[channelId];
 
     console.log('id ' + connection.id + ' connected to channel ' + channelId);
     channel.connections.push(connection);
@@ -91,15 +91,16 @@ export default function (server, channels) {
   }
 
   wss.on('connection', function (ws, req) {
-    var urlParts = url.parse(req.url).path.split('/');
-    var channelId = urlParts[urlParts.length - 1];
-    var connection = createConnection(ws);
+    const urlParts = url.parse(req.url).path.split('/');
+    const channelId = urlParts[urlParts.length - 1];
+    const connection = createConnection(ws);
+    connections[connection.id] = connection;
 
     // will broadcast appropriate messages to channel
     addConnectionToChannel(connection, channelId);
 
     ws.on('message', function incoming(rawMessage) {
-      var channel = channels[channelId];
+      const channel = channels[channelId];
 
       try {
         var message = JSON.parse(rawMessage);
@@ -116,20 +117,29 @@ export default function (server, channels) {
 
     ws.on('close', function closing() {
       removeConnectionFromChannel(connection, channelId);
+      delete connections[connection.id];
     });
   });
 
   function broadcastAll({ body, channel, from, exceptId /* ok if undefined */ }) {
-    channel.connections.forEach(function (sock) {
-      if (sock.id !== exceptId) sock.send({ body, from });
-    });
+    // channel.connections.forEach(function (sock) {
+    //   if (sock.id !== exceptId) sock.send({ body, from });
+    // });
+    channel.connections.forEach(conn => {
+      conn.id === exceptId ? null : sendMessage({ body, from, to: conn.id });
+    })
   }
 
   function broadcastTo({ body, channel, from, to }) {
     var target = channel.connections.find(sock => sock.id === to);
     if (!target) { throw ("No such channel with ID " + targetId); }
 
-    target.send({ body, from });
+    sendMessage({ body, from, to });
+  }
+
+  function sendMessage({ body, from, to }) {
+    console.log({ body, from, to });
+    connections[to].send({ body, from });
   }
 
   return wss;
