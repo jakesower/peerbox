@@ -93,7 +93,7 @@
 /*! exports provided: port, signalerHttpUri, signalerWsUri, default */
 /***/ (function(module) {
 
-module.exports = {"port":3001,"signalerHttpUri":"http://localhost:3002/","signalerWsUri":"ws://localhost:3002/"};
+module.exports = {"port":3001,"signalerHttpUri":"https://peerbox.jakesower.com/signaler","signalerWsUri":"wss://peerbox.jakesower.com/signaler/ws"};
 
 /***/ }),
 
