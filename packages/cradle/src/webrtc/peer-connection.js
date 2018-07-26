@@ -8,9 +8,8 @@ import { createDispatcher } from '../lib/utils';
  */
 
 export default function (sendSignal, signalsEmitter) {
-  console.log('hhh')
   let widgetChannel;
-  let peerConnection = new RTCPeerConnection({ iceServers: [{ url: "stun://stun.ucsb.edu:3478" }] });
+  let peerConnection = new RTCPeerConnection({ iceServers: [{ url: "stun:stun.stunprotocol.org:3478" }] });
   let { update: updateStatus, ...statusEmitter } = emitter();
   let { update: updateMessage, ...messageEmitter } = emitter();
   updateStatus('disconnected');
