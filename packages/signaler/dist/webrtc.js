@@ -62,7 +62,8 @@ exports.default = function (server, channels, connections) {
         body: {
           type: 'peerDisconnected',
           id: connection.id
-        }
+        },
+        exceptId: connection.id
       });
     } else {
       console.log('id ' + connection.id + ' tried disconnecting from channel ' + channelId);
