@@ -97,8 +97,6 @@ exports.default = function (server, channels, connections) {
       try {
         var message = JSON.parse(rawMessage);
         broadcastTo({ channel: channel, body: message.body, to: message.to, from: connection.id });
-
-        console.log(message);
       } catch (err) {
         console.warn("The message couldn't go through!");
         console.log(rawMessage);
