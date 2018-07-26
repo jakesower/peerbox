@@ -68,7 +68,10 @@ export default function (sendSignal, signalsEmitter) {
   function QueuedChannel(name) {
     let queue = [];
     let connected = false;
+    // let channel = peerConnection.createDataChannel(name, { reliable: false });
     let channel = peerConnection.createDataChannel(name, { reliable: false });
+    console.log('oh hai')
+
     let { update, ...messageEmitter } = emitter();
 
     function send(message) {
