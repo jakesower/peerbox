@@ -76,8 +76,6 @@ exports.default = function (server, channels) {
     return {
       id: id,
       send: function send(msg) {
-        console.log("sending message to "+id);
-        console.log(msg);
         sock.send(JSON.stringify(msg));
       }
     };
