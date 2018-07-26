@@ -8,24 +8,48 @@ import { createDispatcher } from '../lib/utils';
  */
 
 export default function (sendSignal, signalsEmitter) {
-  console.log('hhh')
-  let widgetChannel;
   let peerConnection = new RTCPeerConnection({ iceServers: [{ url: "stun://stun.ucsb.edu:3478" }] });
+  let channel = peerConnection.createDataChannel(name, { reliable: false });
   let { update: updateStatus, ...statusEmitter } = emitter();
   let { update: updateMessage, ...messageEmitter } = emitter();
+  let messageQueue = [];
+
   updateStatus('disconnected');
 
   peerConnection.onicecandidate = function (event) { if (event.candidate) { signal('iceCandidate', { iceCandidate: event.candidate }); }}
 
+
+  function sendMessage(message) {
+    const data = JSON.stringify(message);
+    channel.send(data);
+  }
+
+  channel.onmessage = m => {
+    // console.log('got message');
+    // console.log(m);
+    updateMessage(JSON.parse(m));
+  }
+
+  channel.onopen = () => {
+    updateStatus('channel open');
+    console.log('ay papi');
+    // console.log(channel);
+    queue.forEach(m => channel.send(m));
+    queue = [];
+    connected = true;
+  };
+
+  channel.onerror = console.error;
+
+
   signalsEmitter.on(createDispatcher('type', 'payload', {
     answer: handleAnswer,
-    offer: handleOffer,
     iceCandidate: handleIceCandidate,
   }));
 
   return {
     statusEmitter,
-    sendMessage: m => widgetChannel.send(JSON.stringify(m)),
+    sendMessage,
     messageEmitter,
     initiate: createOffer,
     close: () => { peerConnection.close(); peerConnection = null; }
@@ -37,22 +61,6 @@ export default function (sendSignal, signalsEmitter) {
   }
 
   // RTC stuff
-
-  /**
-   * This means that this end is being contacted by a peer looking to set up a
-   * new connection. Setup for the receiving end.
-   */
-  function handleOffer({ offer }) {
-    updateStatus('handling offer');
-    peerConnection.ondatachannel = ev => setChannel(ev.channel);
-
-    peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-    peerConnection.createAnswer(function (answer) {
-      peerConnection.setLocalDescription(answer);
-      signal('answer', { answer: answer });
-    }, function (err) { alert('something went wrong') });
-  }
-
 
   function handleAnswer({ answer }) {
     updateStatus('handling answer');
@@ -67,26 +75,9 @@ export default function (sendSignal, signalsEmitter) {
 
   function createOffer() {
     updateStatus('connecting');
-    setChannel(peerConnection.createDataChannel('widget', { reliable: false }));
     peerConnection.createOffer(function (offer) {
       signal('offer', { offer: offer });
       peerConnection.setLocalDescription(offer);
     }, function (_err) { alert('something went wrong') });
-  }
-
-
-  function setChannel(ch) {
-    widgetChannel = ch;
-
-    widgetChannel.onmessage = m => {
-      updateMessage(JSON.parse(m.data));
-    }
-
-    widgetChannel.onopen = () => {
-      updateStatus('channel open');
-      console.log('ay papi');
-    };
-
-    widgetChannel.onerror = console.error;
   }
 }
